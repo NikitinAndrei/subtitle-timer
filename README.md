@@ -1,0 +1,1 @@
+The name was like an anime name, but current name is more relatable
