@@ -2,6 +2,12 @@ import re,csv
 
 
 def read_timestamps(name: str, folder='Subsnaudios/'):
+    """
+
+    :param name: имя файла
+    :param folder: имя папки
+    :return: возвращает список (дополнительно сохраняет csv)
+    """
     if not name.endswith('.srt') and '.' not in name:
         name += '.srt'
     with open(f'{folder}/{name}', 'r') as f:
@@ -24,6 +30,12 @@ def read_timestamps(name: str, folder='Subsnaudios/'):
 
 
 def parse_to_sec(timestamp: str):
+
+    """
+    :param timestamp: файл в чч:мм:сс
+    :return: в секундах
+    """
+
     time = re.match(r'(\d+):(\d+):(\d+),(\d+)', timestamp)
     return int(time.group(1)) * 3600 + int(time.group(2)) * 60 + int(time.group(3)) + int(time.group(4))/1000
 
