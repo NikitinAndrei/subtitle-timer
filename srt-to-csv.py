@@ -20,9 +20,10 @@ def read_timestamps(name: str, folder='\Subsnaudios'):
     time_in_secs = []
     
     for i, n in enumerate(starts):
-        print(f'{starts[i]} - {finishes[i]}')
+        
         time_in_secs.append(starts[i])
         time_in_secs.append(finishes[i])
+        if finishes[i-1] - starts[i] > 0 and i > 2: break
         time_in_secs.append(1)
     
     return time_in_secs
@@ -42,7 +43,7 @@ def parse_to_sec(timestamp: str):
 def all_srt_to_csv(input_folder='\Subsnaudios'):
     path = os.getcwd()
     for i in os.listdir(path + input_folder):
-        print(i)
+        
         if 'srt' in i:
             time = read_timestamps(i, folder=input_folder)
             with open(f'{path + input_folder}\{i[:-3]}csv', 'w') as f:
