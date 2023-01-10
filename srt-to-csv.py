@@ -1,16 +1,15 @@
-import re,csv
+import os, re, csv
 
 
-def read_timestamps(name: str, folder='Subsnaudios/'):
+def read_timestamps(name: str, folder='\Subsnaudios'):
     """
 
     :param name: имя файла
     :param folder: имя папки
     :return: возвращает список (дополнительно сохраняет csv)
     """
-    if not name.endswith('.srt') and '.' not in name:
-        name += '.srt'
-    with open(f'{folder}/{name}', 'r') as f:
+    path = os.getcwd()
+    with open(f'{path + folder}\{name}', 'r', encoding='utf-8') as f:
         lines = ''.join(f.readlines())
     start = re.compile(r'\n?[0-9]+:[0-9]{2}:[0-9]{2},[0-9]+')
     sub_start = re.findall(start, lines)
@@ -19,13 +18,13 @@ def read_timestamps(name: str, folder='Subsnaudios/'):
     starts = [parse_to_sec(i) for i in starts]
     finishes = [parse_to_sec(i) for i in finishes]
     time_in_secs = []
+    
     for i, n in enumerate(starts):
+        print(f'{starts[i]} - {finishes[i]}')
         time_in_secs.append(starts[i])
         time_in_secs.append(finishes[i])
         time_in_secs.append(1)
-    with open(f'{folder}/{name[:-3]}csv', 'w') as f:
-        writer = csv.writer(f)
-        writer.writerow(time_in_secs)
+    
     return time_in_secs
 
 
@@ -40,4 +39,15 @@ def parse_to_sec(timestamp: str):
     return int(time.group(1)) * 3600 + int(time.group(2)) * 60 + int(time.group(3)) + int(time.group(4))/1000
 
 
-read_timestamps('taxi_subs_7.srt')
+def all_srt_to_csv(input_folder='\Subsnaudios'):
+    path = os.getcwd()
+    for i in os.listdir(path + input_folder):
+        print(i)
+        if 'srt' in i:
+            time = read_timestamps(i, folder=input_folder)
+            with open(f'{path + input_folder}\{i[:-3]}csv', 'w') as f:
+                writer = csv.writer(f)
+                writer.writerow(time)
+
+
+all_srt_to_csv()
