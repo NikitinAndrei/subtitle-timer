@@ -1,1 +1,1 @@
-The name was like an anime name, but current name is more relatable
+The name was like an anime name (in About), but the current is shorter, which some anime also should've done
