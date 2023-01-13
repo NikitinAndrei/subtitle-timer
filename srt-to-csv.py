@@ -40,7 +40,12 @@ def parse_to_sec(timestamp: str):
     return int(time.group(1)) * 3600 + int(time.group(2)) * 60 + int(time.group(3)) + int(time.group(4)) / 1000
 
 
-def all_srt_to_csv(input_folder='\Subsnaudios'):
+def all_srt_to_csv(input_folder='/Subsnaudios'):
+    """
+    Function makes csv files from srt and creates DB with them
+    :param input_folder: folder with subs
+    :return:
+    """
     path = os.getcwd()
     database = {'name': [], 'time': []}
     for i in os.listdir(path + input_folder):
