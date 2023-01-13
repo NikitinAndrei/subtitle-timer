@@ -2,7 +2,7 @@ import os, re, csv
 import pandas as pd
 
 
-def read_timestamps(name: str, folder='\Subsnaudios'):
+def read_timestamps(name: str, folder='/Subsnaudios'):
     """
 
     :param name: имя файла
