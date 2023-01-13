@@ -8,7 +8,7 @@ from os.path import splitext
 
 def code_markers(markers, sr):
     """
-    Take mask and turn it into timestamps
+    Take a mask and turn it into timestamps
     :param markers: array of 1s and 0s
     :param sr: sample rate
     :return: timestamps and 1 as a separator
@@ -45,8 +45,15 @@ def code_markers(markers, sr):
 
 
 def move_audio(name: str, sr: int, sec: float):
+    """
+
+    :param name: name of an audio
+    :param sr: sample rate
+    :param sec: seconds you want an audio to move
+    """
     audio, sr = lr.load(name, sr)
-    if sec > 0:
+
+    if sec >= 0:
         zeros = np.zeros(int(sec * sr))
         audio = np.hstack((zeros, audio))
     else:
@@ -56,6 +63,13 @@ def move_audio(name: str, sr: int, sec: float):
 
 
 def move_db(db: str, sec: float, path='Mono/'):
+    """
+    Moves audio and corresponding timestamps
+    :param db: Database file
+    :param sec: seconds for audio and it's markers to move
+    :param path: path of the audios
+
+    """
     df = pd.read_csv(db)
 
     # df = df.drop(columns=['Unnamed: 0'])
