@@ -96,3 +96,147 @@ def move_db(db: str, sec: float, path='Mono/'):
     new_df = df
     name, ext = splitext(db)
     new_df.to_csv(name + '+' + str(sec) + ext, index=False)
+
+
+def decode_markers(mask, sr=sr):
+    end = np.array([])
+    if mask[0] == '[':
+        mask = mask[1:len(mask) - 1]
+    mask = mask.split(',')
+    mask = list(map(float, mask))
+
+    s_zeros = np.zeros(int(mask[0] * sr))
+    end = np.hstack((s_zeros, end))
+
+    for i in range(1, int(len(mask) / 3)):
+        a = np.ones(int((mask[i * 3 - 2] - mask[i * 3 - 3]) * sr), dtype='uint8') * mask[i * 3 - 1]
+        b = np.zeros(int((mask[i * 3] - mask[i * 3 - 2]) * sr), dtype='uint8')
+        end = np.hstack((end, a, b))
+
+    last = np.ones(int((mask[-2] - mask[-3]) * sr) + 1) * mask[-1]
+    end = np.hstack((end, last))
+    return end
+
+
+def OHE(file, classes=3):
+    cont = np.zeros((file.shape[0], file.shape[1], classes))
+    np.place(cont[:, :, 0], file[:, :] == 0, 1)
+    np.place(cont[:, :, 1], file[:, :] == 0, 0)
+    np.place(cont[:, :, 2], file[:, :] == 0, 0)
+
+    np.place(cont[:, :, 0], file[:, :] == 1, 0)
+    np.place(cont[:, :, 1], file[:, :] == 1, 1)
+    np.place(cont[:, :, 2], file[:, :] == 1, 0)
+
+    np.place(cont[:, :, 0], file[:, :] == 2, 0)
+    np.place(cont[:, :, 1], file[:, :] == 2, 0)
+    np.place(cont[:, :, 2], file[:, :] == 2, 1)
+
+    return cont
+
+
+def keras_generator(gen_df,
+                    batch_size,
+                    t,
+                    db='Db_1.csv',
+                    path='Mono/',
+                    sr=sr):
+    files = os.listdir(path)
+
+    df = gen_df
+    x_batch = np.empty(sr * t)
+    y_batch = np.empty(sr * t)
+    batch_max = []
+    inds = list(df.index)
+    sub_file = 0
+    toggle = 0
+    j = 0
+    i = 0
+    for i in range(batch_size):
+
+        k = inds[j]
+        # k = i
+        if df.loc[k, 'Name'] in files:
+
+            f_n = path + df.loc[k, 'Name']
+            f_m = df.loc[k, 'Markers']
+            file, o = lr.load(f_n, sr)
+            file = np.array(file, dtype='float16')
+            # Нормировка
+            file = file / np.amax(abs(file))
+            batch_max.append(np.amax(file))
+            # Декодим маску
+            mask = decode_markers(df.loc[k, 'Markers'])
+            # Файл меньше длины окна разбиения
+            if len(file) < sr * t:
+
+                # Дополняем нулями до размеров окна srt
+                sub_file = np.hstack((file,
+                                      np.zeros(sr * t - len(file))))
+                # Декод маски
+                sub_mask = np.hstack((mask,
+                                      np.zeros(sr * t - len(mask))))
+
+                # Первый батч
+                if toggle == 0:
+                    x_batch[:] = sub_file[:]
+                    y_batch[:] = sub_mask[:]
+                    toggle += 1
+            # Файл больше или равен длины
+            else:
+                # Выясняем количество разбиений
+                f_amount = len(file) // (sr * t)
+
+                # Если целочисленно не поделилось, то добиваем, чтобы делилось
+                if len(file) % (sr * t) != 0:
+                    f_amount += 1
+                    z = f_amount * sr * t - len(file)
+                    z_m = f_amount * sr * t - len(mask)
+                    file = np.hstack((file, np.zeros(z)))
+                    mask = np.hstack((mask, np.zeros(z_m)))
+                    # if z <= sr*t*(1 - cut):
+                    #     f_amount -= 1
+                # Первый кусок
+
+                sub_file = file[(0 * sr * t):(1 * sr * t)]
+                sub_mask = mask[(0 * sr * t):(1 * sr * t)]
+
+                # Первый батч
+                if toggle == 0:
+                    x_batch = sub_file
+                    y_batch = sub_mask
+                    toggle += 1
+
+                # бьём на отдельные куски
+                for l in range(2, f_amount + 1):
+                    # Прибавляемый шаг
+                    step = file[((l - 1) * sr * t):(l * sr * t)]
+                    sub_file = np.vstack((sub_file, step))
+
+                    # Соответствующие куски маски
+                    _mask = mask[((l - 1) * sr * t):(l * sr * t)]
+                    sub_mask = np.vstack((sub_mask, _mask))
+
+            if i > 0 and np.any(x_batch) and type(sub_file) == np.ndarray:
+                # Стакаем другие файлы
+                x_batch = np.vstack((x_batch, sub_file))
+                y_batch = np.vstack((y_batch, sub_mask))
+            j += 1
+
+            # Кодируем, чтоб быстрее to_categorical
+    y_batch = OHE(y_batch, 3)
+
+    return x_batch, y_batch
+
+
+x_train, y_train = keras_generator(train_df, len(list(train_df.index)), t, sr=sr,
+                                   path='drive/MyDrive/Mono/')
+
+# # # x_val, y_val = keras_generator(val_df, len(list(val_df.index)) , t, sr=sr,
+# # #                                path='drive/MyDrive/Mono/')
+
+x_train, x_val, y_train, y_val = train_test_split(x_train,
+                                                  y_train,
+                                                  test_size=0.2,
+                                                  # random_state=0,
+                                                  shuffle=False)
