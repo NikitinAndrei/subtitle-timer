@@ -6,6 +6,38 @@ import pandas as pd
 from os.path import splitext
 
 
+# def code_markers(markers, sr):
+#
+#     markers = np.array(markers)
+#     i = 1
+#     res = []
+#
+#     while i < markers.shape[0]:
+#
+#         if markers[i - 1] != 0 and i == 1:
+#             # If starts with a sub right away
+#             res.append(0.0)
+#
+#         elif markers[markers.shape[0] - 1] != 0 and i == markers.shape[0] - 1:
+#             # If ends on a sub
+#             res.append(markers.shape[0] / sr)
+#             res.append(int(markers[i]))
+#
+#         elif markers[i - 1] != markers[i]:
+#             if markers[i] == 1:
+#                 # If prev char is not equal to current 1
+#                 # we mark it as a start of a sub
+#                 res.append(i / sr)
+#             elif markers[i] == 0:
+#                 # If prev char is not equal to current 0
+#                 # we mark it as an end of a sub
+#                 res.append(i / sr)
+#                 res.append(int(markers[i - 1]))
+#         i += 1
+#
+#     return res
+# The code above reworked, but I didn't test for bugs, so I left this abomination
+
 def code_markers(markers, sr):
     """
     Take a mask and turn it into timestamps
@@ -14,33 +46,17 @@ def code_markers(markers, sr):
     :return: timestamps and 1 as a separator
     """
 
-    markers = np.array(markers)
-    i = 1
+    var = None
     res = []
-
-    while i < markers.shape[0]:
-
-        if markers[i - 1] != 0 and i == 1:
-            # If starts with a sub right away
-            res.append(0.0)
-
-        elif markers[markers.shape[0] - 1] != 0 and i == markers.shape[0] - 1:
-            # If ends on a sub
-            res.append(markers.shape[0] / sr)
-            res.append(int(markers[i]))
-
-        elif markers[i - 1] != markers[i]:
-            if markers[i] == 1:
-                # If prev char is not equal to current 1
-                # we mark it as a start of a sub
+    for i, n in enumerate(markers):
+        char = n
+        if char != var:
+            if var == 0:
                 res.append(i / sr)
-            elif markers[i] == 0:
-                # If prev char is not equal to current 0
-                # we mark it as an end of a sub
+            elif var == 1 or var == 2:
                 res.append(i / sr)
-                res.append(int(markers[i - 1]))
-        i += 1
-
+                res.append(var)
+        var = n
     return res
 
 
@@ -98,7 +114,7 @@ def move_db(db: str, sec: float, path='Mono/'):
     new_df.to_csv(name + '+' + str(sec) + ext, index=False)
 
 
-def decode_markers(mask, sr=sr):
+def decode_markers(mask, sr=16000):
     end = np.array([])
     if mask[0] == '[':
         mask = mask[1:len(mask) - 1]
@@ -140,7 +156,7 @@ def keras_generator(gen_df,
                     t,
                     db='Db_1.csv',
                     path='Mono/',
-                    sr=sr):
+                    sr=16000):
     files = os.listdir(path)
 
     df = gen_df
@@ -228,15 +244,15 @@ def keras_generator(gen_df,
 
     return x_batch, y_batch
 
-
-x_train, y_train = keras_generator(train_df, len(list(train_df.index)), t, sr=sr,
-                                   path='drive/MyDrive/Mono/')
-
-# # # x_val, y_val = keras_generator(val_df, len(list(val_df.index)) , t, sr=sr,
-# # #                                path='drive/MyDrive/Mono/')
-
-x_train, x_val, y_train, y_val = train_test_split(x_train,
-                                                  y_train,
-                                                  test_size=0.2,
-                                                  # random_state=0,
-                                                  shuffle=False)
+#
+# x_train, y_train = keras_generator(train_df, len(list(train_df.index)), t, sr=sr,
+#                                    path='drive/MyDrive/Mono/')
+#
+# # # # x_val, y_val = keras_generator(val_df, len(list(val_df.index)) , t, sr=sr,
+# # # #                                path='drive/MyDrive/Mono/')
+#
+# x_train, x_val, y_train, y_val = train_test_split(x_train,
+#                                                   y_train,
+#                                                   test_size=0.2,
+#                                                   # random_state=0,
+#                                                   shuffle=False)
