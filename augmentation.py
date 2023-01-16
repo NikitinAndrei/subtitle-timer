@@ -6,38 +6,6 @@ import pandas as pd
 from os.path import splitext
 
 
-# def code_markers(markers, sr):
-#
-#     markers = np.array(markers)
-#     i = 1
-#     res = []
-#
-#     while i < markers.shape[0]:
-#
-#         if markers[i - 1] != 0 and i == 1:
-#             # If starts with a sub right away
-#             res.append(0.0)
-#
-#         elif markers[markers.shape[0] - 1] != 0 and i == markers.shape[0] - 1:
-#             # If ends on a sub
-#             res.append(markers.shape[0] / sr)
-#             res.append(int(markers[i]))
-#
-#         elif markers[i - 1] != markers[i]:
-#             if markers[i] == 1:
-#                 # If prev char is not equal to current 1
-#                 # we mark it as a start of a sub
-#                 res.append(i / sr)
-#             elif markers[i] == 0:
-#                 # If prev char is not equal to current 0
-#                 # we mark it as an end of a sub
-#                 res.append(i / sr)
-#                 res.append(int(markers[i - 1]))
-#         i += 1
-#
-#     return res
-# The code above reworked, but I didn't test for bugs, so I left this abomination
-
 def code_markers(markers, sr):
     """
     Take a mask and turn it into timestamps
@@ -45,8 +13,8 @@ def code_markers(markers, sr):
     :param sr: sample rate
     :return: timestamps and 1 as a separator
     """
-
-    var = None
+    markers += [0]  # 1 zero at the end does nothing to the arrow, but works as an end marker
+    var = 0
     res = []
     for i, n in enumerate(markers):
         char = n
