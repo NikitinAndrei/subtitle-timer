@@ -55,7 +55,7 @@ def move_db(db: str, sec: float, path='Mono/'):
 
     """
     df = pd.read_csv(db)
-
+    # Comment below for dropping index column
     # df = df.drop(columns=['Unnamed: 0'])
     files = os.listdir(path)
     for i in (list(df.index)):
@@ -102,7 +102,7 @@ def decode_markers(mask, sr=16000):
     return end
 
 
-def OHE(file, classes=3):
+def ohe(file, classes=3):
     cont = np.zeros((file.shape[0], file.shape[1], classes))
     np.place(cont[:, :, 0], file[:, :] == 0, 1)
     np.place(cont[:, :, 1], file[:, :] == 0, 0)
@@ -119,39 +119,40 @@ def OHE(file, classes=3):
     return cont
 
 
-def keras_generator(gen_df,
+def keras_generator(df,
                     batch_size,
                     t,
-                    db='Db_1.csv',
                     path='Mono/',
                     sr=16000):
-    files = os.listdir(path)
+    """
 
-    df = gen_df
+    :param df: dataframe to make masks from
+    :param batch_size: how many records for a batch to pass
+    :param t: duration of an audio recording
+    :param path: path to the database
+    :param sr: sample rate
+    :return: one-hot encoded timestamps of audio files
+    """
+    files = os.listdir(path)
     x_batch = np.empty(sr * t)
     y_batch = np.empty(sr * t)
-    batch_max = []
     inds = list(df.index)
-    sub_file = 0
     toggle = 0
     j = 0
-    i = 0
     for i in range(batch_size):
 
         k = inds[j]
-        # k = i
         if df.loc[k, 'Name'] in files:
 
-            f_n = path + df.loc[k, 'Name']
-            f_m = df.loc[k, 'Markers']
-            file, o = lr.load(f_n, sr)
-            file = np.array(file, dtype='float16')
+            f_n = path + df.loc[k, 'Name']  # file name
+            f_m = df.loc[k, 'Markers']  # file of mask
+            file, o = lr.load(f_n, sr)  # o - sample rate as well
+
             # Нормировка
             file = file / np.amax(abs(file))
-            batch_max.append(np.amax(file))
             # Декодим маску
-            mask = decode_markers(df.loc[k, 'Markers'])
-            # Файл меньше длины окна разбиения
+            mask = decode_markers(f_m)
+            # Файл меньше длины окна разбиения (spoiler_alert: always)
             if len(file) < sr * t:
 
                 # Дополняем нулями до размеров окна srt
@@ -174,14 +175,12 @@ def keras_generator(gen_df,
                 # Если целочисленно не поделилось, то добиваем, чтобы делилось
                 if len(file) % (sr * t) != 0:
                     f_amount += 1
-                    z = f_amount * sr * t - len(file)
-                    z_m = f_amount * sr * t - len(mask)
-                    file = np.hstack((file, np.zeros(z)))
-                    mask = np.hstack((mask, np.zeros(z_m)))
-                    # if z <= sr*t*(1 - cut):
-                    #     f_amount -= 1
-                # Первый кусок
+                    new_dur = f_amount * sr * t
+                    # add zeros to fill the gap to the end
+                    file = np.hstack((file, np.zeros(new_dur - len(file))))
+                    mask = np.hstack((mask, np.zeros(new_dur - len(mask))))
 
+                # Первый кусок
                 sub_file = file[(0 * sr * t):(1 * sr * t)]
                 sub_mask = mask[(0 * sr * t):(1 * sr * t)]
 
@@ -192,23 +191,23 @@ def keras_generator(gen_df,
                     toggle += 1
 
                 # бьём на отдельные куски
-                for l in range(2, f_amount + 1):
+                for part in range(2, f_amount + 1):
                     # Прибавляемый шаг
-                    step = file[((l - 1) * sr * t):(l * sr * t)]
+                    step = file[((part - 1) * sr * t):(part * sr * t)]
                     sub_file = np.vstack((sub_file, step))
 
                     # Соответствующие куски маски
-                    _mask = mask[((l - 1) * sr * t):(l * sr * t)]
+                    _mask = mask[((part - 1) * sr * t):(part * sr * t)]
                     sub_mask = np.vstack((sub_mask, _mask))
 
             if i > 0 and np.any(x_batch) and type(sub_file) == np.ndarray:
-                # Стакаем другие файлы
+                # Стакаем с другими файлами
                 x_batch = np.vstack((x_batch, sub_file))
                 y_batch = np.vstack((y_batch, sub_mask))
             j += 1
 
             # Кодируем, чтоб быстрее to_categorical
-    y_batch = OHE(y_batch, 3)
+    y_batch = ohe(y_batch, 3)
 
     return x_batch, y_batch
 
