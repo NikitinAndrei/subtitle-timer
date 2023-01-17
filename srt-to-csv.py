@@ -1,5 +1,7 @@
 import os, re, csv
 import pandas as pd
+import librosa as lr
+from tqdm import tqdm
 
 
 def read_timestamps(name: str, folder='/Subsnaudios'):
@@ -47,18 +49,23 @@ def all_srt_to_csv(input_folder='/Subsnaudios'):
     :return:
     """
     path = os.getcwd()
-    database = {'name': [], 'time': []}
-    for i in os.listdir(path + input_folder):
-
+    database = {'name': [], 'time': [], 'duration': []}
+    for i in tqdm(os.listdir(path + input_folder)):
+        file, sr = lr.load(path + input_folder + '/' + i[:-3] + 'mp3', sr=16000)
         if 'srt' in i:
             time = read_timestamps(i, folder=input_folder)
             database['name'].append(i)
             database['time'].append(time)
+            database['duration'].append(lr.get_duration(y=file, sr=sr))
             with open(f'{path + input_folder}\{i[:-3]}csv', 'w') as f:
                 writer = csv.writer(f)
                 writer.writerow(time)
     db = pd.DataFrame(database)
     db.to_csv('Database.csv', index=False)
+
+
+def database_card(db):
+    df = pd.read_csv(db)
 
 
 all_srt_to_csv()
