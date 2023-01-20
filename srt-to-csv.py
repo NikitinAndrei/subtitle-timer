@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 
 def change_indexes(subfile: str, path="D:\\Projects\\SubsTimer\\Subsnaudios\\"):
-    with open(path + subfile, 'r+', encoding='utf-8') as f:
+    with open(path + subfile, 'r', encoding='utf-8') as f:
         data = f.readlines()
     i = 1
     for index, line in enumerate(data):
@@ -41,7 +41,7 @@ def read_timestamps(name: str, folder='/Subsnaudios'):
         time_in_secs.append(starts[i])
         time_in_secs.append(finishes[i])
         if finishes[i - 1] - starts[i] > 0 and i > 2:
-            raise Exception(f'Mistake in {name} on time {starts[i]//60}')
+            raise Exception(f'Mistake in {name} on position {i+1} with time {parse_to_mins(finishes[i - 1])}')
         time_in_secs.append(1)
 
     return time_in_secs
@@ -57,7 +57,14 @@ def parse_to_sec(timestamp: str):
     return int(time.group(1)) * 3600 + int(time.group(2)) * 60 + int(time.group(3)) + int(time.group(4)) / 1000
 
 
-# def parse_to_mins(timestamp: str):
+def parse_to_mins(seconds):
+    if not float:
+        seconds = float(seconds)
+    hours = seconds // 3600
+    minutes = seconds // 60
+    seconds = seconds - 3600 * hours - minutes * 60
+    return f'{int(hours):02d}:{int(minutes):02d}:{seconds:06.3f}'
+
 
 def all_srt_to_csv(input_folder='/Subsnaudios'):
     """
@@ -86,6 +93,6 @@ def database_card(db):
 
 
 all_srt_to_csv()
-
+# change_indexes('taxi_subs_6.srt')
 
 

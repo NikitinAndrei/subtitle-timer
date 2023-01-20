@@ -78,7 +78,7 @@ Such an amazing reaction!
 It is really cool
 
 19
-00:02:04,000 --> 00:02:05,500
+00:02:04,500 --> 00:02:05,500
 It is reaaally cool
 
 20
@@ -322,7 +322,7 @@ It's strong... I agree
 Cool, cool
 
 78
-00:04:40,000 --> 00:04:45,000
+00:04:42,000 --> 00:04:45,000
 Seriously speaking, very cool
 
 79
@@ -391,521 +391,488 @@ Ouch, you're shocking me again
 00:05:25,500 --> 00:05:26,500
 Have a nice one!
 
-94
+95
 00:05:26,500 --> 00:05:27,500
 I can, I can
 
-94
+96
 00:05:27,500 --> 00:05:28,500
 Best of luck
 
-95
+97
 00:05:29,000 --> 00:05:30,500
 Thank you
 
-96
+98
 00:05:32,600 --> 00:05:33,000
 Hello
 
-97
+99
 00:05:33,000 --> 00:05:33,400
 Hello
 
-97
+100
 00:05:36,000 --> 00:05:38,000
 May I ask you a question?
 
-98
+101
 00:05:38,500 --> 00:05:40,600
 Do you know, what is beatbox?
 
-98
+102
 00:05:41,200 --> 00:05:45,000
 When music is made with lips.
 Maybe ever heard once?
 
-98
+103
 00:05:45,000 --> 00:05:45,500
 No
 
-99
+104
 00:05:45,500 --> 00:05:46,400
 On TikTok
 
-100
+105
 00:05:47,400 --> 00:05:49,100
 I just do it and
 
-101
+106
 00:05:49,100 --> 00:05:50,700
 I want to perform you something
 
-101
+107
 00:05:50,700 --> 00:05:53,000
 You can hear in the back I have
 a mic attached
 
-102
+108
 00:05:53,000 --> 00:05:54,400
 Can you hear me?
 One, two, three, four...
 
-103
+109
 00:05:55,000 --> 00:05:57,500
 And I want to perform you something,
 maybe I'll manage to surprise you 
 
-104
+110
 00:05:57,500 --> 00:05:59,000
 Maybe to uplift your mood
 
-105
+111
 00:05:59,000 --> 00:06:00,000
 Yes, let's go
 
-106
+112
 00:06:01,000 --> 00:06:02,500
 I'll check the sound
 
-107
+113
 00:06:06,500 --> 00:06:08,000
 You can hear me well there?
 
-107
+114
 00:07:22,500 --> 00:07:24,000
 - Cool
 - Cool
 
-108
+115
 00:07:24,000 --> 00:07:25,300
 Thanks
 
-109
+116
 00:07:26,000 --> 00:07:29,000
 Have you ever heard something 
 like this live?
 
-110
+117
 00:07:29,000 --> 00:07:30,000
 Live? No
 
-111
+118
 00:07:30,000 --> 00:07:31,000
 Only on the Internet, yes?
 
-112
+119
 00:07:31,000 --> 00:07:31,500
 Yes
 
-113
+120
 00:07:32,000 --> 00:07:33,500
 It is very cool
 
-114
+121
 00:07:34,500 --> 00:07:35,000
 Thank you
 
-115
+122
 00:07:37,000 --> 00:07:40,500
 Honestly, I make videos and if you
 don't mind, I'll add you
 
-116
+123
 00:07:40,700 --> 00:07:42,000
 How you are reacting
 
-117
+124
 00:07:42,000 --> 00:07:43,000
 On TikTok?
 
-118
+125
 00:07:43,000 --> 00:07:46,000
 On YouTube. You can find there
 and watch later, if you want 
 
-119
+126
 00:07:47,000 --> 00:07:49,800
 On YouTube just type "Improver"
 
-120
+127
 00:07:50,500 --> 00:07:51,500
 In English
 
-121
+128
 00:07:53,000 --> 00:07:56,000
 Are you self-taught or have 
 been studying somewhere?
 
-122
+129
 00:07:56,000 --> 00:07:58,000
 I do it for about 15 years 
 
-123
+130
 00:07:58,000 --> 00:08:00,000
 Since the very young age. I heard
 
-124
+131
 00:08:00,000 --> 00:08:03,000
 how they do it, and tried to 
 replicate it
 
-125
+132
 00:08:03,500 --> 00:08:04,000
 from video
 
-126
+133
 00:08:07,000 --> 00:08:09,000
 Even became campion of Russia
 
-127
+134
 00:08:11,000 --> 00:08:14,400
 Why don't you record a track?
 
-128
+135
 00:08:14,400 --> 00:08:17,000
 Do you mean self composed song
 with beatbox?
 
-129
+136
 00:08:17,000 --> 00:08:20,000
 Actually, I have songs I made
 myself with beatbox, like
 
-130
+137
 00:09:03,500 --> 00:09:05,000
 Cool
 
-131
+138
 00:09:06,000 --> 00:09:08,500
 It should be nice to dance to it
 
-132
+139
 00:09:08,500 --> 00:09:10,000
 Yeah, a dance club one
 
-133
+140
 00:09:11,000 --> 00:09:11,500
 Hello
 
-134
+141
 00:09:11,500 --> 00:09:12,000
 Hello
 
-135
+142
 00:09:13,000 --> 00:09:15,000
 Do you know, what is beatbox?
 
-136
+143
 00:09:15,800 --> 00:09:16,500
 Beatbox?
 
-137
+144
 00:09:16,500 --> 00:09:17,000
 Yes
 
-138
+145
 00:09:17,000 --> 00:09:18,800
 Maybe ever heard a word once?
 
-139
+146
 00:09:19,000 --> 00:09:20,600
 I heard a word, but don't know
 what is it
 
-140
+147
 00:09:21,000 --> 00:09:25,000
 When a person with his mouth and
 his speech apparatus
 
-141
+148
 00:09:25,000 --> 00:09:27,000
 makes music. Maybe heard it?
 
-142
+149
 00:09:27,500 --> 00:09:28,000
 On TikTok maybe
 
-143
+150
 00:09:28,000 --> 00:09:30,000
 Ahh, got it, yes-yes
 
-144
+151
 00:09:30,500--> 00:09:32,600
 I just started doing it
 
-145
+152
 00:09:32,600 --> 00:09:34,600
 And I wonder, how it is listenable
 by another person
 
-146
+153
 00:09:34,600 --> 00:09:36,600
 Will I surprise you or not?
 
-147
+154
 00:09:36,600 --> 00:09:38,400
 Let me perform you something
 
-148
+155
 00:09:38,400 --> 00:09:40,400
 And you will tell me
 if it's fine or not
 
-149
+156
 00:09:40,400 --> 00:09:43,000
 Usually, young people are
 interested in this
 
-150
+157
 00:09:44,000 --> 00:09:47,000
 You call yourself an old man 
 too early
 
-151
+158
 00:09:47,000 --> 00:09:49,000
 I am 60 in two years
 
-152
+159
 00:09:49,000 --> 00:09:50,000
 It's amazing
 
-153
+160
 00:09:50,000 --> 00:09:52,700
 You look young, don't look your age.
 
-154
+161
 00:09:52,700 --> 00:09:54,400
 It should be, 
 everyone say this to you
 
-155
+162
 00:09:55,400 --> 00:09:56,000
 I'll make something?
 
-156
+163
 00:09:56,000 --> 00:09:56,500
 Let's go
 
-157
+164
 00:11:24,000 --> 00:11:25,500
 Yes. Impressing
 
-158
+165
 00:11:26,000 --> 00:11:28,200
 How much breath it takes
 
-159
+166
 00:11:28,800 --> 00:11:31,000
 Yes, long years of training
 
-160
+167
 00:11:32,500 --> 00:11:34,000
 How do you do all this?
 
-161
+168
 00:11:34,000 --> 00:11:37,000
 If you break it down into steps,
 
-162
+169
 00:11:37,000 --> 00:11:40,000
 Then, as in every
 
-163
+170
 00:11:40,000 --> 00:11:42,000
 kind of art, for example,
 
-164
+171
 00:11:42,000 --> 00:11:45,000
 fighters perfects a basic punch,
 
-165
+172
 00:11:45,000 --> 00:11:47,000
 a dancer - basic moves
 
-166
+173
 00:11:47,000 --> 00:11:49,400
 If you want to learn a language,
 you need to learn its alphabet,
 
-167
+174
 00:11:49,400 --> 00:11:51,300
 And here the same
 
-168
+175
 00:11:51,300 --> 00:11:54,000
 You need to know basic sounds,
 percussive sounds
 
-169
+176
 00:11:54,400 --> 00:11:56,500
 It's a kick, the biggest drum,
 
-170
+177
 00:11:58,000 --> 00:11:59,500
 a hi-hat, that we hit,
 
-171
+178
 00:12:00,500 --> 00:12:03,000
 and a small drum that sounds like
 
-172
+179
 00:12:04,500 --> 00:12:06,000
 Having these three sounds
 
-173
+180
 00:12:06,000 --> 00:12:07,500 
 allowing us make some rythms
 
-174
+181
 00:12:13,000 --> 00:12:14,500 
 It's only three sounds
 
-175
+182
 00:12:21,500 --> 00:12:23,700
 How's that all called? 
 How have you said?
 
-176
-00:12:21,500 --> 00:12:23,700
-How's this all called? 
-What is it, you have said?
-
-177
+183
 00:12:24,000 --> 00:12:25,000
 Beatbox
 
-178
+184
 00:12:27,000 --> 00:12:28,000
 Hello
 
-179
+185
 00:12:28,500 --> 00:12:29,000
 Salam
 
-180
+186
 00:12:31,000 --> 00:12:32,800
 Why is it so loud?
 
-181
+187
 00:12:33,000 --> 00:12:35,000
 1, 2, 3, 4, 5, 1, 2
 
-182
+188
 00:12:35,600 --> 00:12:36,300
 What does it mean?
 
-183
+189
 00:12:37,000 --> 00:12:38,500
 I just have a mic attached
 
-184
+190
 00:12:38,500 --> 00:12:41,000
 Ah, s&*t, I got scared
 
-185
+191
 00:12:42,000 --> 00:12:45,000
 Gosh, you make jokes
 
-186
+192
 00:12:46,000 --> 00:12:48,000
 I think "A special department maybe"
 
-187
+193
 00:12:49,500 --> 00:12:52,200
 Actually, I do beatbox. 
 Do you know what is this?
 
-188
+194
 00:12:52,200 --> 00:12:52,800
 Ah! Yes
 
-189
+195
 00:12:53,000 --> 00:12:54,800
 I am Russian beatbox champion
 
-190
+196
 00:12:55,000 --> 00:12:56,000
 You don't say!
 
-191
+197
 00:12:56,000 --> 00:12:57,800
 And we can even listen to it?
 
-192
+198
 00:12:57,800 --> 00:13:00,000
 It's all here for a reason
 
-193
+199
 00:13:00,000 --> 00:13:02,500
 As I thought
 
-194
+200
 00:13:02,500 --> 00:13:04,600
 And you go 
 "Turn it off, turn it off"
 
-195
+201
 00:13:06,000 --> 00:13:07,000
 Bro, may I record?
 
-196
+202
 00:13:07,000 --> 00:13:07,400
 You may record
 
-197
+203
 00:13:07,500 --> 00:13:09,000
 Gosh! You don't say!
 
-198
+204
 00:13:09,000 --> 00:13:12,500
 I will post it, and everyone will
 "Sheesh, you are with the beatbox world champ"
-
-199
-00:13:14,000 --> 00:13:15,400
-You start?
-
-200
-00:13:14,000 --> 00:13:15,400
-You start?
-
-201
-00:13:14,000 --> 00:13:15,400
-You start?
-
-202
-00:13:14,000 --> 00:13:15,400
-You start?
-
-203
-00:13:14,000 --> 00:13:15,400
-You start?
-
-204
-00:13:14,000 --> 00:13:15,400
-You start?
 
 205
 00:13:14,000 --> 00:13:15,400
 You start?
 
 206
-00:13:14,000 --> 00:13:15,400
-You start?
-
-207
 00:14:36,000 --> 00:14:36,800
 Who are you? 
 
-208
+207
 00:14:36,800 --> 00:14:37,300
 Amazing
 
-209
+208
 00:14:40,000 --> 00:14:42,000
 Gosh you're lit
 
-210
+209
 00:14:43,000 --> 00:14:46,000
 Oh my God, bro! 
 I pressed on photo, you know

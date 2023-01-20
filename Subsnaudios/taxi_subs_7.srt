@@ -382,7 +382,7 @@ As I thought there's something
 installed in the back
 
 94
-00:09:56,000 --> 00:09:56,703
+00:09:56,019 --> 00:09:56,703
 Yes, it's like
 
 94
