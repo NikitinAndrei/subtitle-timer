@@ -1,7 +1,21 @@
-import os, re, csv
+import os
+import re
+import csv
 import pandas as pd
-import librosa as lr
+import soundfile as sf
 from tqdm import tqdm
+
+
+def change_indexes(subfile: str, path="D:\\Projects\\SubsTimer\\Subsnaudios\\"):
+    with open(path + subfile, 'r+', encoding='utf-8') as f:
+        data = f.readlines()
+    i = 1
+    for index, line in enumerate(data):
+        if re.match(r'\d+\n', line):
+            data[index] = str(i) + '\n'
+            i += 1
+    with open(path + subfile, 'w', encoding='utf-8') as f:
+        f.writelines(data)
 
 
 def read_timestamps(name: str, folder='/Subsnaudios'):
@@ -26,7 +40,8 @@ def read_timestamps(name: str, folder='/Subsnaudios'):
 
         time_in_secs.append(starts[i])
         time_in_secs.append(finishes[i])
-        if finishes[i - 1] - starts[i] > 0 and i > 2: break
+        if finishes[i - 1] - starts[i] > 0 and i > 2:
+            raise Exception(f'Mistake in {name} on time {starts[i]//60}')
         time_in_secs.append(1)
 
     return time_in_secs
@@ -42,6 +57,8 @@ def parse_to_sec(timestamp: str):
     return int(time.group(1)) * 3600 + int(time.group(2)) * 60 + int(time.group(3)) + int(time.group(4)) / 1000
 
 
+# def parse_to_mins(timestamp: str):
+
 def all_srt_to_csv(input_folder='/Subsnaudios'):
     """
     Function makes csv files from srt and creates DB with them
@@ -51,12 +68,12 @@ def all_srt_to_csv(input_folder='/Subsnaudios'):
     path = os.getcwd()
     database = {'name': [], 'time': [], 'duration': []}
     for i in tqdm(os.listdir(path + input_folder)):
-        file, sr = lr.load(path + input_folder + '/' + i[:-3] + 'mp3', sr=16000)
         if 'srt' in i:
+            file, sr = sf.read(path + input_folder + '/' + i[:-3] + 'mp3')
             time = read_timestamps(i, folder=input_folder)
             database['name'].append(i)
             database['time'].append(time)
-            database['duration'].append(lr.get_duration(y=file, sr=sr))
+            database['duration'].append(len(file) / sr)
             with open(f'{path + input_folder}\{i[:-3]}csv', 'w') as f:
                 writer = csv.writer(f)
                 writer.writerow(time)
@@ -69,3 +86,6 @@ def database_card(db):
 
 
 all_srt_to_csv()
+
+
+
