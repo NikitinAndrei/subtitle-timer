@@ -1,46 +1,97 @@
 import os
 import re
-import csv
 import pandas as pd
 import soundfile as sf
 from tqdm import tqdm
 
 
 def subs_check(path="D:\\Projects\\SubsTimer\\Subsnaudios\\"):
-    indexing = {}
-    mistakes = {'file name': None, 'time_stamp': None, 'indexing': []}
+    mistakes = {'Name': None,
+                'time_format': None,
+                'indexing': None,
+                'starts unfinished': None,
+                'good': []
+                }
     for name in os.listdir(path):
         if '.srt' in name:
-            with open(f'{path}\{name}', 'r', encoding='utf-8') as f:
+            with open(f'{path}\\{name}', 'r', encoding='utf-8') as f:
                 lines = ''.join(f.readlines())
+            if not mistakes['Name']:
+                mistakes['Name'] = [name]
+            else: mistakes['Name'].append(name)
+
+            # Check if it is 00:00:00,000 format
             correct_time = re.compile(r'\n?[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}')
             incorrect_time = re.compile(r'\n?[0-9]+:[0-9]+:[0-9]+,[0-9]+')
             subs_timestamps = re.findall(correct_time, lines)
             subs_misformat = re.findall(incorrect_time, lines)
 
-            if len(subs_misformat) != len(subs_timestamps):
-                if not mistakes['file name']:
-                    mistakes['file name'] = [name]
-                    mistakes['time_stamp'] = []
-                else:
-                    mistakes['file name'].append(name)
-                    mistakes['time_stamp'].append([])
-                for i, n in enumerate(subs_misformat):
-                    if n != subs_timestamps[n]:
-                        mistakes['time_stamp'][-1].append(n)
+            if not mistakes['time_format']:
+                mistakes['time_format'] = [[]]
+            else:
+                mistakes['time_format'].append([])
 
-            starts = [i[1:] for i in correct_time if i.startswith('\n')]
-            finishes = [i for i in correct_time if not i.startswith('\n')]
+            if len(subs_misformat) != len(subs_timestamps):
+                for i, n in enumerate(subs_misformat):
+                    if not re.match(r'\n?[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}', n):
+                        mistakes['time_format'][-1].append(subs_misformat[i])
+
+            # Checking if a subtitle starts when previous one did not finish
+            starts = [i for i in subs_timestamps if i.startswith('\n')]
+            finishes = [i for i in subs_timestamps if not i.startswith('\n')]
+
             starts = [parse_to_sec(i) for i in starts]
             finishes = [parse_to_sec(i) for i in finishes]
-            time_in_secs = []
 
+            if not mistakes['starts unfinished']:
+                mistakes['starts unfinished'] = [[]]
+            else:
+                mistakes['starts unfinished'].append([])
             for i, n in enumerate(starts):
-                time_in_secs.append(starts[i])
-                time_in_secs.append(finishes[i])
                 if finishes[i - 1] - starts[i] > 0 and i > 2:
-                    raise Exception(f'Mistake in {name} on position {i + 1} with time {parse_to_mins(finishes[i - 1])}')
-                time_in_secs.append(1)
+                    mistakes['starts unfinished'][-1].append(f'{i + 1}, {finishes[i - 1]}, {starts[i]}')
+            # Checking order of indexes for subs
+            if not mistakes['indexing']:
+                mistakes['indexing'] = [[]]
+            else:
+                mistakes['indexing'].append([])
+            lines = lines.split(sep='\n')
+
+            indexes = []
+            for i in lines:
+                if re.match(r'\d+$', i):
+                    indexes.append(int(i))
+
+            for i, n in enumerate(indexes):
+                if n != i + 1:
+                    print(i + 1)
+                    mistakes['indexing'][-1] = 'Error'
+                    break
+                else:
+                    mistakes['indexing'][-1] = []
+            if mistakes['indexing'][-1] or mistakes['starts unfinished'][-1] or mistakes['time_format'][-1]:
+                mistakes['good'].append('No')
+            else:
+                mistakes['good'].append('Yes')
+
+    for i, n in mistakes['good']:
+        if n == 'No':
+            print(f'Something wrong with {mistakes["Name"][i]}')
+
+            if mistakes['indexing'][i]:
+                print("Indexing error")
+                y = input('If you want to reindex all subs, type "y"')
+                if y == 'y':
+                    change_indexes(mistakes["Name"][i])
+                    subs_check(path=path)
+
+            if mistakes['time_format'][i]:
+                print(f"Check its time format {mistakes['time_format'][i]}")
+
+            if mistakes["starts unfinished"]:
+                print(f"Mistake in position/finishes with/starts with")
+
+    return mistakes
 
 
 def change_indexes(subfile: str, path="D:\\Projects\\SubsTimer\\Subsnaudios\\"):
@@ -63,7 +114,7 @@ def read_timestamps(name: str, folder='/Subsnaudios'):
     :return: возвращает список (дополнительно сохраняет csv)
     """
     path = os.getcwd()
-    with open(f'{path + folder}\{name}', 'r', encoding='utf-8') as f:
+    with open(f'{path + folder}\\{name}', 'r', encoding='utf-8') as f:
         lines = ''.join(f.readlines())
     start = re.compile(r'\n?[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]+')
     sub_start = re.findall(start, lines)
@@ -77,8 +128,6 @@ def read_timestamps(name: str, folder='/Subsnaudios'):
 
         time_in_secs.append(starts[i])
         time_in_secs.append(finishes[i])
-        if finishes[i - 1] - starts[i] > 0 and i > 2:
-            raise Exception(f'Mistake in {name} on position {i+1} with time {parse_to_mins(finishes[i - 1])}')
         time_in_secs.append(1)
 
     return time_in_secs
@@ -90,7 +139,7 @@ def parse_to_sec(timestamp: str):
     :return: в секундах
     """
 
-    time = re.match(r'(\d+):(\d+):(\d+),(\d+)', timestamp)
+    time = re.match(r'(\n?\d+):(\d+):(\d+),(\d+)', timestamp)
     return int(time.group(1)) * 3600 + int(time.group(2)) * 60 + int(time.group(3)) + int(time.group(4)) / 1000
 
 
@@ -110,6 +159,9 @@ def all_srt_to_csv(input_folder='/Subsnaudios'):
     :return:
     """
     path = os.getcwd()
+    mistakes = subs_check(path=path+input_folder)
+    if 'No' in mistakes['good']:
+        raise Exception('Needs rework')
     database = {'name': [], 'time': [], 'duration': []}
     for i in tqdm(os.listdir(path + input_folder)):
         if 'srt' in i:
@@ -127,7 +179,8 @@ def database_card(db):
     df = pd.read_csv(db)
 
 
-# all_srt_to_csv()
-# change_indexes('taxi_subs_6.srt')
+# subs_check()
+all_srt_to_csv()
+# change_indexes('taxi_subs_7.srt')
 
 
