@@ -118,9 +118,7 @@ def all_srt_to_csv(input_folder='/Subsnaudios'):
             database['name'].append(i)
             database['time'].append(time)
             database['duration'].append(len(file) / sr)
-            with open(f'{path + input_folder}\{i[:-3]}csv', 'w') as f:
-                writer = csv.writer(f)
-                writer.writerow(time)
+
     db = pd.DataFrame(database)
     db.to_csv('Database.csv', index=False)
 
@@ -129,7 +127,7 @@ def database_card(db):
     df = pd.read_csv(db)
 
 
-all_srt_to_csv()
+# all_srt_to_csv()
 # change_indexes('taxi_subs_6.srt')
 
 
