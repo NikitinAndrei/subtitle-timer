@@ -175,12 +175,33 @@ def all_srt_to_csv(input_folder='/Subsnaudios'):
     db.to_csv('Database.csv', index=False)
 
 
-def database_card(db):
+def database_card(db='Database.csv'):
+    from datetime import datetime
     df = pd.read_csv(db)
+    card = {}
+    all_speech = 0
+    for i in list(df.index):
+        timestamps = df.loc[i, 'time']
+        if timestamps[0] == '[':
+            timestamps = timestamps[1:len(timestamps) - 1]
+        timestamps = timestamps.split(',')
+        timestamps = list(map(float, timestamps))
+        starts = [timestamps[i * 3 - 3] for i in range(1, len(timestamps) // 3)]
+        finishes = [timestamps[i * 3 - 2] for i in range(1, len(timestamps) // 3)]
+        speech = [finishes[i] - starts[i] for i, n in enumerate(starts)]
+        all_speech += sum(speech)
+        card[df.loc[i, 'name']] = int(sum(speech) / df.loc[i, 'duration'] * 100)
+    all_durations = sum(list(df['duration']))
+
+    with open('database_card.md', 'a+') as file:
+        file.write(f'## Log from {datetime.now()}\n\n')
+        for i in list(df.index):
+            file.write(f'* {df.loc[i, "name"]} is {int(card[df.loc[i, "name"]])} percent of speech  \n')
+        file.write(f"Overall it's {int(all_speech / all_durations * 100)} percent speech\n\n")
+        file.write("---\n\n")
 
 
-# subs_check()
-all_srt_to_csv()
-# change_indexes('taxi_subs_7.srt')
 
+database_card()
+# all_srt_to_csv()
 
