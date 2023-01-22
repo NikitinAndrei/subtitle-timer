@@ -6,6 +6,12 @@ from tqdm import tqdm
 
 
 def subs_check(path="D:\\Projects\\SubsTimer\\Subsnaudios\\"):
+    """
+    Checking subtitle files for mistakes such as misformat to 00:00:00,000,
+    indexing and if some subs starts when previous aren't finished
+    :param path: path to all subs files
+    :return: a dictionary with subs and theirs mistakes
+    """
     mistakes = {'Name': None,
                 'time_format': None,
                 'indexing': None,
@@ -50,6 +56,7 @@ def subs_check(path="D:\\Projects\\SubsTimer\\Subsnaudios\\"):
             for i, n in enumerate(starts):
                 if finishes[i - 1] - starts[i] > 0 and i > 2:
                     mistakes['starts unfinished'][-1].append(f'{i + 1}, {finishes[i - 1]}, {starts[i]}')
+
             # Checking order of indexes for subs
             if not mistakes['indexing']:
                 mistakes['indexing'] = [[]]
@@ -95,6 +102,12 @@ def subs_check(path="D:\\Projects\\SubsTimer\\Subsnaudios\\"):
 
 
 def change_indexes(subfile: str, path="D:\\Projects\\SubsTimer\\Subsnaudios\\"):
+    """
+    Change indexing of subtitle file with ascendenting indexes
+    :param subfile: name of a subtitles file
+    :param path: path to that file
+    :return: rewrites file with correct indexes
+    """
     with open(path + subfile, 'r', encoding='utf-8') as f:
         data = f.readlines()
     i = 1
@@ -144,6 +157,11 @@ def parse_to_sec(timestamp: str):
 
 
 def parse_to_mins(seconds):
+    """
+
+    :param seconds: seconds to parse to minutes
+    :return: hh:mm:ss,ms format
+    """
     if not float:
         seconds = float(seconds)
     hours = seconds // 3600
@@ -176,6 +194,14 @@ def all_srt_to_csv(input_folder='/Subsnaudios'):
 
 
 def database_card(db='Database.csv'):
+    """
+    Easy logging functions that takes subtitle database that has
+    time and duration columns and counts percentage of speech
+    on such audio.
+
+    :param db: database to analyze
+    :return: creates or appends existing databsase file in .md format
+    """
     from datetime import datetime
     df = pd.read_csv(db)
     card = {}
@@ -201,7 +227,6 @@ def database_card(db='Database.csv'):
         file.write("---\n\n")
 
 
-
-database_card()
+# database_card()
 # all_srt_to_csv()
 
