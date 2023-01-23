@@ -102,7 +102,11 @@ def decode_markers(mask, sr=16000):
     return end
 
 
-def ohe(file, classes=3):
+def ohe(file):
+    """
+    one-hot encode in 3 classes. That's not good for two classes
+
+    """
     cont = np.zeros((file.shape[0], file.shape[1], classes))
     np.place(cont[:, :, 0], file[:, :] == 0, 1)
     np.place(cont[:, :, 1], file[:, :] == 0, 0)
