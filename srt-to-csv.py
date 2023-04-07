@@ -81,14 +81,15 @@ def subs_check(path="D:\\Projects\\SubsTimer\\Subsnaudios\\"):
             else:
                 mistakes['good'].append('Yes')
 
-    for i, n in mistakes['good']:
+    for i, n in enumerate(mistakes['good']):
         if n == 'No':
             print(f'Something wrong with {mistakes["Name"][i]}')
 
             if mistakes['indexing'][i]:
                 print("Indexing error")
-                y = input('If you want to reindex all subs, type "y"')
-                if y == 'y':
+                print('Do you want to reindex all subs?')
+                y = input("Y/N:")
+                if y.lower() == 'y':
                     change_indexes(mistakes["Name"][i])
                     subs_check(path=path)
 
@@ -226,7 +227,7 @@ def database_card(db='Database.csv'):
         file.write(f"Overall it's {int(all_speech / all_durations * 100)} percent speech\n\n")
         file.write("---\n\n")
 
-
+print(subs_check())
 # database_card()
 # all_srt_to_csv()
 
